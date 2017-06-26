@@ -28,9 +28,9 @@
 
 /* [Box dimensions] */
 // - Longueur - Length  
-  Length        = 80;       
+  Length        = 90;       
 // - Largeur - Width
-  Width         = 60;                     
+  Width         = 90;                     
 // - Hauteur - Height  
   Height        = 30;  
 // - Epaisseur - Wall thickness  
@@ -38,9 +38,9 @@
   
 /* [Box options] */
 // Pieds PCB - PCB feet (x4) 
-  PCBFeet       = 0;// [0:No, 1:Yes]
+  PCBFeet       = 1;// [0:No, 1:Yes]
 // - Decorations to ventilation holes
-  Vent          = 0;// [0:No, 1:Yes]
+  Vent          = 1;// [0:No, 1:Yes]
 // - Decoration-Holes width (in mm)
   Vent_width    = 1.5;   
 // - Text you want
@@ -54,22 +54,24 @@
 // - lissage de l'arrondi - Filet smoothness  
   Resolution    = 50;//[1:100] 
 // - Tolérance - Tolerance (Panel/rails gap)
-  m             = 0.9;
+  m             = 0.3;
 // mounting legs clearance
-  MountClearance = 0.2;
+  MountClearance = 0.1;
+  // clearance between Top and Bottom shell
+  ShellClearance = 0.1;
 
 /* [PCB_Feet--TheBoard_Will_NotBeExported) ] */
 //All dimensions are from the center foot axis
 // - Coin bas gauche - Low left corner X position
-PCBPosX         = 7;
+PCBPosX         = 0;
 // - Coin bas gauche - Low left corner Y position
-PCBPosY         = 6;
+PCBPosY         = 0;
 // - Longueur PCB - PCB Length
-PCBLength       = 70;
+PCBLength       = 64;
 // - Largeur PCB - PCB Width
-PCBWidth        = 50;
+PCBWidth        = 64;
 // - Heuteur pied - Feet height
-FootHeight      = 10;
+FootHeight      = 8;
 // - Diamètre pied - Foot diameter
 FootDia         = 8;
 // - Diamètre trou - Hole diameter
@@ -82,7 +84,7 @@ MountInnerHole = 2;
 
 /* [STL element to export] */
 //Coque haut - Top shell
-  TShell        = 0;// [0:No, 1:Yes]
+  TShell        = 1;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
   BShell        = 1;// [0:No, 1:Yes]
 //Panneau arrière - Back panel  
@@ -242,12 +244,12 @@ module Coque(){//Coque - Shell
                     cylinder(d=MountInnerHole,20);
                     }
                 }
-                translate([Length-((3*Thick)+5),5,Height/2-4]){
+                translate([Length-((3*Thick)+5),5,Height/2-4+ShellClearance]){
                     rotate([90,0,0]){
                     cylinder(d=MountOuterHole,20);
                     }
                 }
-                translate([Length-((3*Thick)+5),Width+5,Height/2-4]){
+                translate([Length-((3*Thick)+5),Width+5,Height/2-4+ShellClearance]){
                     rotate([90,0,0]){
                     cylinder(d=MountOuterHole,20);
                     }
@@ -368,7 +370,7 @@ Coque();
 if(TShell==1)
 // Coque haut - Top Shell
 color( Couleur1,1){
-    translate([Length,0,Height+0.2]){
+    translate([Length,0,Height+ShellClearance]){
         rotate([0,180,0]){
                 Coque();
                 }
