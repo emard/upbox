@@ -5,8 +5,9 @@ by Heartman.
 
 # Changes
 
-Changed mount legs positions both near panel instead
-on the sides.
+Changed mount legs positions to be placed near panel.
+Mounting screw positions look to me more "symmetric",
+but that's perhaps only a question of taste.
 
 From given PCB size it calculates size of box enclosure and
 lets mounting feet be centered.
