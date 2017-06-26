@@ -26,15 +26,39 @@
 
 ////////// - Paramètres de la boite - Box parameters - /////////////
 
+/* [PCB_Feet--TheBoard_Will_NotBeExported) ] */
+//All dimensions are from the center foot axis
+// - Coin bas gauche - Low left corner X position
+PCBPosX         = 0;
+// - Coin bas gauche - Low left corner Y position
+PCBPosY         = 0;
+// - Longueur PCB - PCB Length
+PCBLength       = 64;
+// - Largeur PCB - PCB Width
+PCBWidth        = 64;
+// - Heuteur pied - Feet height
+FootHeight      = 8;
+// - Diamètre pied - Foot diameter
+FootDia         = 7;
+// - Diamètre trou - Hole diameter
+FootHole        = 2;
+
+// those clearances should be larger than
+// the PCB edge to hole centers distances
+FootClrX = 5; // foot center to panel clearance
+FootClrY = 5; // foot center to shell wall clearance
+
+// - Epaisseur - Wall thickness  
+Thick           = 2;//[2:5]  
+
+
 /* [Box dimensions] */
 // - Longueur - Length  
-  Length        = 90;       
+  Length        = PCBLength+2*(2*Thick+FootClrX);
 // - Largeur - Width
-  Width         = 90;                     
+  Width         = PCBWidth+2*(Thick+FootClrY);
 // - Hauteur - Height  
   Height        = 30;  
-// - Epaisseur - Wall thickness  
-  Thick         = 2;//[2:5]  
   
 /* [Box options] */
 // Pieds PCB - PCB feet (x4) 
@@ -60,22 +84,6 @@
   // clearance between Top and Bottom shell
   ShellClearance = 0.1;
 
-/* [PCB_Feet--TheBoard_Will_NotBeExported) ] */
-//All dimensions are from the center foot axis
-// - Coin bas gauche - Low left corner X position
-PCBPosX         = 0;
-// - Coin bas gauche - Low left corner Y position
-PCBPosY         = 0;
-// - Longueur PCB - PCB Length
-PCBLength       = 64;
-// - Largeur PCB - PCB Width
-PCBWidth        = 64;
-// - Heuteur pied - Feet height
-FootHeight      = 8;
-// - Diamètre pied - Foot diameter
-FootDia         = 8;
-// - Diamètre trou - Hole diameter
-FootHole        = 3;  
 
 // mointing holes
 MountOuterHole = 3;
@@ -304,7 +312,7 @@ module foot(FootDia,FootHole,FootHeight){
   
 module Feet(){     
 //////////////////// - PCB only visible in the preview mode - /////////////////////    
-    translate([3*Thick+2,Thick+5,FootHeight+(Thick/2)-0.5]){
+    translate([2*Thick+2,Thick+5,FootHeight+(Thick/2)-0.5]){
     
     %square ([PCBL+10,PCBW+10]);
        translate([PCBL/2,PCBW/2,0.5]){ 
@@ -315,16 +323,16 @@ module Feet(){
   
     
 ////////////////////////////// - 4 Feet - //////////////////////////////////////////     
-    translate([3*Thick+7,Thick+10,Thick/2]){
+    translate([2*Thick+FootClrX,Thick+FootClrY,Thick/2]){
         foot(FootDia,FootHole,FootHeight);
     }
-    translate([(3*Thick)+PCBL+7,Thick+10,Thick/2]){
+    translate([(2*Thick)+PCBL+FootClrX,Thick+FootClrY,Thick/2]){
         foot(FootDia,FootHole,FootHeight);
         }
-    translate([(3*Thick)+PCBL+7,(Thick)+PCBW+10,Thick/2]){
+    translate([(2*Thick)+PCBL+FootClrX,(Thick)+PCBW+FootClrY,Thick/2]){
         foot(FootDia,FootHole,FootHeight);
         }        
-    translate([3*Thick+7,(Thick)+PCBW+10,Thick/2]){
+    translate([2*Thick+FootClrX,(Thick)+PCBW+FootClrY,Thick/2]){
         foot(FootDia,FootHole,FootHeight);
     }   
 
