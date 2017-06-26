@@ -78,7 +78,7 @@ FootHole        = 3;
 //Coque haut - Top shell
   TShell        = 1;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
-  BShell        = 0;// [0:No, 1:Yes]
+  BShell        = 1;// [0:No, 1:Yes]
 //Panneau arrière - Back panel  
   BPanel        = 0;// [0:No, 1:Yes]
 //Panneau avant - Front panel
@@ -362,8 +362,8 @@ Coque();
 if(TShell==1)
 // Coque haut - Top Shell
 color( Couleur1,1){
-    translate([0,Width,Height+0.2]){
-        rotate([0,180,180]){
+    translate([Length,0,Height+0.2]){
+        rotate([0,180,0]){
                 Coque();
                 }
         }
