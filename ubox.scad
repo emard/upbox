@@ -72,7 +72,10 @@ FootHeight      = 10;
 FootDia         = 8;
 // - Diamètre trou - Hole diameter
 FootHole        = 3;  
-  
+
+// mointing holes
+MountOuterHole = 3;
+MountInnerHole = 2;
 
 /* [STL element to export] */
 //Coque haut - Top shell
@@ -187,11 +190,11 @@ module Coque(){//Coque - Shell
                                    cube([Length,40,40]);    
                                   }
                            }
-                           // tolerance cut
+                           // clearance cut
                            translate([0,-(Thick*1.46),Height/2]){
                                 cube([Length,Thick*2,10]);
                            }
-                           // tolerance cut
+                           // clearance cut
                            translate([0,Width-Thick*2+(Thick*1.46),Height/2]){
                                rotate([0,0,0])
                                 cube([Length,Thick*2,10]);
@@ -228,22 +231,22 @@ module Coque(){//Coque - Shell
                 $fn=50;
                 translate([3*Thick+5,20,Height/2+4]){
                     rotate([90,0,0]){
-                    cylinder(d=2,20);
+                    cylinder(d=MountInnerHole,20);
                     }
                 }
                 translate([3*Thick+5,Width-20,Height/2+4]){
                     rotate([-90,0,0]){
-                    cylinder(d=2,20);
+                    cylinder(d=MountInnerHole,20);
                     }
                 }
                 translate([Length-((3*Thick)+5),5,Height/2-4]){
                     rotate([90,0,0]){
-                    cylinder(d=2,20);
+                    cylinder(d=MountOuterHole,20);
                     }
                 }
                 translate([Length-((3*Thick)+5),Width+5,Height/2-4]){
                     rotate([90,0,0]){
-                    cylinder(d=2,20);
+                    cylinder(d=MountOuterHole,20);
                     }
                 }
             }//fin de sides holes
