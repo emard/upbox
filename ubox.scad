@@ -55,7 +55,9 @@
   Resolution    = 50;//[1:100] 
 // - Tolérance - Tolerance (Panel/rails gap)
   m             = 0.9;
-  
+// mounting legs clearance
+  MountClearance = 0.2;
+
 /* [PCB_Feet--TheBoard_Will_NotBeExported) ] */
 //All dimensions are from the center foot axis
 // - Coin bas gauche - Low left corner X position
@@ -77,9 +79,10 @@ FootHole        = 3;
 MountOuterHole = 3;
 MountInnerHole = 2;
 
+
 /* [STL element to export] */
 //Coque haut - Top shell
-  TShell        = 1;// [0:No, 1:Yes]
+  TShell        = 0;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
   BShell        = 1;// [0:No, 1:Yes]
 //Panneau arrière - Back panel  
@@ -191,11 +194,11 @@ module Coque(){//Coque - Shell
                                   }
                            }
                            // clearance cut
-                           translate([0,-(Thick*1.46),Height/2]){
+                           translate([0,-(Thick*1.5-MountClearance),Height/2]){
                                 cube([Length,Thick*2,10]);
                            }
                            // clearance cut
-                           translate([0,Width-Thick*2+(Thick*1.46),Height/2]){
+                           translate([0,Width-Thick*2+(Thick*1.5-MountClearance),Height/2]){
                                rotate([0,0,0])
                                 cube([Length,Thick*2,10]);
                            }
