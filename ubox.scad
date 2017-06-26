@@ -76,15 +76,15 @@ FootHole        = 3;
 
 /* [STL element to export] */
 //Coque haut - Top shell
-  TShell        = 1;// [0:No, 1:Yes]
+  TShell        = 0;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
   BShell        = 1;// [0:No, 1:Yes]
 //Panneau arrière - Back panel  
-  BPanel        = 1;// [0:No, 1:Yes]
+  BPanel        = 0;// [0:No, 1:Yes]
 //Panneau avant - Front panel
-  FPanel        = 1;// [0:No, 1:Yes]
+  FPanel        = 0;// [0:No, 1:Yes]
 //Texte façade - Front text
-  Text          = 1;// [0:No, 1:Yes]
+  Text          = 0;// [0:No, 1:Yes]
 
 
   
@@ -157,18 +157,18 @@ module Coque(){//Coque - Shell
                                     }                          
                                 }                                          
 
-
+                
                 difference(){// Fixation box legs
                     union(){
-                        translate([3*Thick +5,Thick,Height/2]){
+                        translate([3*Thick+5,Thick,Height/2]){
                             rotate([90,0,0]){
                                     $fn=6;
                                     cylinder(d=16,Thick/2);
                                     }   
                             }
                             
-                       translate([Length-((3*Thick)+5),Thick,Height/2]){
-                            rotate([90,0,0]){
+                       translate([3*Thick+5,Width-Thick,Height/2]){
+                            rotate([-90,0,0]){
                                     $fn=6;
                                     cylinder(d=16,Thick/2);
                                     }   
@@ -218,12 +218,12 @@ module Coque(){//Coque - Shell
                     cylinder(d=2,20);
                     }
                 }
-                translate([Length-((3*Thick)+5),20,Height/2+4]){
-                    rotate([90,0,0]){
+                translate([3*Thick+5,Width-20,Height/2+4]){
+                    rotate([-90,0,0]){
                     cylinder(d=2,20);
                     }
                 }
-                translate([3*Thick+5,Width+5,Height/2-4]){
+                translate([Length-((3*Thick)+5),5,Height/2-4]){
                     rotate([90,0,0]){
                     cylinder(d=2,20);
                     }
