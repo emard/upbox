@@ -76,9 +76,9 @@ FootHole        = 3;
 
 /* [STL element to export] */
 //Coque haut - Top shell
-  TShell        = 0;// [0:No, 1:Yes]
+  TShell        = 1;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
-  BShell        = 1;// [0:No, 1:Yes]
+  BShell        = 0;// [0:No, 1:Yes]
 //Panneau arrière - Back panel  
   BPanel        = 0;// [0:No, 1:Yes]
 //Panneau avant - Front panel
@@ -175,12 +175,25 @@ module Coque(){//Coque - Shell
                             }
 
                         }
+                            // angular cut 45 deg
                             translate([4,Thick+Filet,Height/2-57]){   
                              rotate([45,0,0]){
                                    cube([Length,40,40]);    
                                   }
                            }
+                            // angular cut 45 deg
+                            translate([4,Width-(Thick+Filet),Height/2-57]){   
+                             rotate([45,0,0]){
+                                   cube([Length,40,40]);    
+                                  }
+                           }
+                           // tolerance cut
                            translate([0,-(Thick*1.46),Height/2]){
+                                cube([Length,Thick*2,10]);
+                           }
+                           // tolerance cut
+                           translate([0,Width-Thick*2+(Thick*1.46),Height/2]){
+                               rotate([0,0,0])
                                 cube([Length,Thick*2,10]);
                            }
                     } //Fin fixation box legs
