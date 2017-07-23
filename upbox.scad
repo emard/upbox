@@ -142,7 +142,7 @@ module RoundBox($a=Length, $b=Width, $c=Height){// Cube bords arrondis
       
 ////////////////////////////////// - Module Coque/Shell - //////////////////////////////////         
 
-module Coque(){//Coque - Shell  
+module Coque(top=0){//Coque - Shell  
     Thick = Thick*2;  
     difference(){    
         difference(){//sides decoration
@@ -175,17 +175,18 @@ module Coque(){//Coque - Shell
                                     }                          
                                 }                                          
 
-                
+                if(top < 0.5)
+                for(i = [0:1])
                 difference(){// Fixation box legs
                     union(){
-                        translate([3*Thick+5,Thick,Height/2]){
+                        translate([i*(Length-6*Thick-10)+3*Thick+5,Thick,Height/2]){
                             rotate([90,0,0]){
                                     $fn=6;
                                     cylinder(d=16,Thick/2);
                                     }   
                             }
                             
-                       translate([3*Thick+5,Width-Thick,Height/2]){
+                       translate([i*(Length-6*Thick-10)+3*Thick+5,Width-Thick,Height/2]){
                             rotate([-90,0,0]){
                                     $fn=6;
                                     cylinder(d=16,Thick/2);
@@ -241,25 +242,32 @@ module Coque(){//Coque - Shell
                 }//fin union decoration
             }//fin difference decoration
 
-
-            union(){ //sides holes
-                $fn=50;
-                translate([3*Thick+5,20,Height/2+4]){
+            if(top < 0.5)
+            for(i = [0:1])
+            union(){ //sides inner holes
+                $fn=20;
+                translate([i*(Length - 6*Thick-10) + 3*Thick+5,20,Height/2+4]){
                     rotate([90,0,0]){
                     cylinder(d=MountInnerHole,20);
                     }
                 }
-                translate([3*Thick+5,Width-20,Height/2+4]){
+                translate([i*(Length - 6*Thick-10) + 3*Thick+5,Width-20,Height/2+4]){
                     rotate([-90,0,0]){
                     cylinder(d=MountInnerHole,20);
                     }
                 }
-                translate([Length-((3*Thick)+5),5,Height/2-4+ShellClearance]){
+            }
+            if(top > 0.5)
+            for(i = [0:1])
+            union() // sides outer holes
+            {
+                $fn=20;
+                translate([i*(Length - 6*Thick-10) + 3*Thick+5,5,Height/2-4+ShellClearance]){
                     rotate([90,0,0]){
                     cylinder(d=MountOuterHole,20);
                     }
                 }
-                translate([Length-((3*Thick)+5),Width+5,Height/2-4+ShellClearance]){
+                translate([i*(Length - 6*Thick-10) + 3*Thick+5,Width+5,Height/2-4+ShellClearance]){
                     rotate([90,0,0]){
                     cylinder(d=MountOuterHole,20);
                     }
@@ -384,7 +392,7 @@ color(Couleur1){
 if(BShell==1)
 // Coque bas - Bottom shell
 color(Couleur1){ 
-Coque();
+Coque(top=0);
 }
 
 
@@ -393,7 +401,7 @@ if(TShell==1)
 color( Couleur1,1){
     translate([Length,0,Height+ShellClearance]){
         rotate([0,180,0]){
-                Coque();
+                Coque(top=1);
                 }
         }
 }
