@@ -41,14 +41,14 @@ FootHeight      = 5;
 // - Diamètre pied - Foot diameter
 FootDia         = 7;
 // - Diamètre trou - Hole diameter
-FootHole        = 2;
+FootHole        = 1.8;
 // - 3-foot mode, one foot width-asymmetric, 0 for normal 4-foot mode
 Foot3Width = 6*2.54;
 
 // those clearances should be larger than
 // the PCB edge to hole centers distances
-FootClrX = 5; // foot center to panel clearance
-FootClrY = 5; // foot center to shell wall clearance
+FootClrX = 7; // foot center to panel clearance
+FootClrY = 6; // foot center to shell wall clearance
 
 // - Epaisseur - Wall thickness  
 Thick           = 2;//[2:5]  
@@ -60,7 +60,7 @@ Thick           = 2;//[2:5]
 // - Largeur - Width
   Width         = PCBWidth+2*(Thick+FootClrY);
 // - Hauteur - Height  
-  Height        = 25;
+  Height        = 28;
   
 /* [Box options] */
 // Pieds PCB - PCB feet (x4) 
@@ -88,15 +88,15 @@ Thick           = 2;//[2:5]
 
 
 // mounting hole diameters
-MountOuterHole = 3;
-MountInnerHole = 2;
+MountOuterHole = 2.5;
+MountInnerHole = 1.8;
 
 
 /* [STL element to export] */
 //Coque haut - Top shell
-  TShell        = 1;// [0:No, 1:Yes]
+  TShell        = 0;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
-  BShell        = 1;// [0:No, 1:Yes]
+  BShell        = 0;// [0:No, 1:Yes]
 //Panneau arrière - Back panel  
   BPanel        = 0;// [0:No, 1:Yes]
 //Panneau avant - Front panel
@@ -365,34 +365,50 @@ module Feet(){
 if(BPanel==1)
 //Back Panel
 translate ([-m/2,0,0]){
-Panels();
+  difference()
+  {
+    Panels();
+    // cut off opening for micro USB connector
+    translate([Thick*1.5,Width/2,21])
+       cube([Thick+1,11,6],center=true);
+  }
 }
 
 if(FPanel==1)
+{
 //Front Panel
 rotate([0,0,180]){
-    translate([-Length-m/2,-Width,0]){             
-     Panels();
+    translate([-Length-m/2,-Width,0]){
+     difference()
+     {
+       Panels();
+       // cut off opening for USB connector
+       translate([Thick*1.5,Width/2,9])
+         cube([Thick+1,15,7],center=true);
+     }
        }
    }
 
 if(Text==1)
 // Front text
 color(Couleur1){     
-     translate([Length-(Thick),Thick*4,(Height-(Thick*4+(TxtSize/2)))]){// x,y,z
+     translate([Length-(Thick),Width/2+Thick*0,(Height-(Thick*3+(TxtSize/2)))]){// x,y,z
           rotate([90,0,90]){
-              linear_extrude(height = 0.25){
-              text(txt, font = Police, size = TxtSize,  valign ="center", halign ="left");
+              linear_extrude(height = 1.0){
+              text(txt, font = Police, size = TxtSize,  valign ="center", halign ="center");
                         }
                  }
          }
 }
-
+}
 
 if(BShell==1)
 // Coque bas - Bottom shell
 color(Couleur1){ 
 Coque(top=0);
+if (PCBFeet==1)  // Feet
+  translate([PCBPosX,PCBPosY,0])
+    Feet();
 }
 
 
@@ -406,8 +422,3 @@ color( Couleur1,1){
         }
 }
 
-if (PCBFeet==1)
-// Feet
-translate([PCBPosX,PCBPosY,0]){ 
-Feet();
- }
