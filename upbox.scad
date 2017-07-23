@@ -80,7 +80,7 @@ Thick           = 2;//[2:5]
 // - lissage de l'arrondi - Filet smoothness  
   Resolution    = 20;//[1:100] 
 // - Tolérance - Tolerance (Panel/rails gap)
-  m             = 0.3;
+  m             = 1.5;
 // mounting legs clearance
   MountClearance = 0.1;
   // clearance between Top and Bottom shell
@@ -369,8 +369,8 @@ translate ([-m/2,0,0]){
   {
     Panels();
     // cut off opening for micro USB connector
-    translate([Thick*1.5,Width/2,21])
-       cube([Thick+1,11,6],center=true);
+    translate([Thick*1.5+m,Width/2,21])
+       cube([Thick*2,11,6],center=true);
   }
 }
 
@@ -383,8 +383,8 @@ rotate([0,0,180]){
      {
        Panels();
        // cut off opening for USB connector
-       translate([Thick*1.5,Width/2,9])
-         cube([Thick+1,15,7],center=true);
+       translate([Thick*1.5+m,Width/2,10])
+         cube([Thick*2,15,7],center=true);
      }
        }
    }
