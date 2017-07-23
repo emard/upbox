@@ -33,15 +33,17 @@ PCBPosX         = 0;
 // - Coin bas gauche - Low left corner Y position
 PCBPosY         = 0;
 // - Longueur PCB - PCB Length
-PCBLength       = 64;
+PCBLength       = 35*2.54;
 // - Largeur PCB - PCB Width
-PCBWidth        = 64;
+PCBWidth        = 11*2.54;
 // - Heuteur pied - Feet height
-FootHeight      = 8;
+FootHeight      = 5;
 // - Diamètre pied - Foot diameter
 FootDia         = 7;
 // - Diamètre trou - Hole diameter
 FootHole        = 2;
+// - 3-foot mode, one foot width-asymmetric, 0 for normal 4-foot mode
+Foot3Width = 6*2.54;
 
 // those clearances should be larger than
 // the PCB edge to hole centers distances
@@ -58,25 +60,25 @@ Thick           = 2;//[2:5]
 // - Largeur - Width
   Width         = PCBWidth+2*(Thick+FootClrY);
 // - Hauteur - Height  
-  Height        = 30;  
+  Height        = 25;
   
 /* [Box options] */
 // Pieds PCB - PCB feet (x4) 
   PCBFeet       = 1;// [0:No, 1:Yes]
 // - Decorations to ventilation holes
-  Vent          = 1;// [0:No, 1:Yes]
+  Vent          = 0;// [0:No, 1:Yes]
 // - Decoration-Holes width (in mm)
   Vent_width    = 1.5;   
 // - Text you want
-  txt           = "HeartyGFX";           
+  txt           = "12*";
 // - Font size  
-  TxtSize       = 4;                 
+  TxtSize       = 5;                 
 // - Font  
   Police        ="Arial Black"; 
 // - Diamètre Coin arrondi - Filet diameter  
   Filet         = 2;//[0.1:12] 
 // - lissage de l'arrondi - Filet smoothness  
-  Resolution    = 50;//[1:100] 
+  Resolution    = 20;//[1:100] 
 // - Tolérance - Tolerance (Panel/rails gap)
   m             = 0.3;
 // mounting legs clearance
@@ -85,7 +87,7 @@ Thick           = 2;//[2:5]
   ShellClearance = 0.1;
 
 
-// mointing holes
+// mounting hole diameters
 MountOuterHole = 3;
 MountInnerHole = 2;
 
@@ -98,9 +100,9 @@ MountInnerHole = 2;
 //Panneau arrière - Back panel  
   BPanel        = 0;// [0:No, 1:Yes]
 //Panneau avant - Front panel
-  FPanel        = 0;// [0:No, 1:Yes]
+  FPanel        = 1;// [0:No, 1:Yes]
 //Texte façade - Front text
-  Text          = 0;// [0:No, 1:Yes]
+  Text          = 1;// [0:No, 1:Yes]
 
 
   
@@ -326,16 +328,27 @@ module Feet(){
     translate([2*Thick+FootClrX,Thick+FootClrY,Thick/2]){
         foot(FootDia,FootHole,FootHeight);
     }
-    translate([(2*Thick)+PCBL+FootClrX,Thick+FootClrY,Thick/2]){
-        foot(FootDia,FootHole,FootHeight);
-        }
-    translate([(2*Thick)+PCBL+FootClrX,(Thick)+PCBW+FootClrY,Thick/2]){
-        foot(FootDia,FootHole,FootHeight);
-        }        
     translate([2*Thick+FootClrX,(Thick)+PCBW+FootClrY,Thick/2]){
         foot(FootDia,FootHole,FootHeight);
     }   
 
+    if(Foot3Width < 0.001)
+    {
+        // 4-foot mode
+    translate([(2*Thick)+PCBL+FootClrX,(Thick)+PCBW+FootClrY,Thick/2]){
+        foot(FootDia,FootHole,FootHeight);
+        }        
+    translate([(2*Thick)+PCBL+FootClrX,Thick+FootClrY,Thick/2]){
+        foot(FootDia,FootHole,FootHeight);
+        }
+    }
+    else
+    {
+        // 3-foot mode
+    translate([(2*Thick)+PCBL+FootClrX,(Thick)+Foot3Width+FootClrY,Thick/2]){
+        foot(FootDia,FootHole,FootHeight);
+        }        
+    }
 } // Fin du module Feet
  
 
