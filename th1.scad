@@ -61,7 +61,7 @@ Thick           = 2;//[2:5]
 // - Text you want
   txt           = "CSS TH1";
 // - Font size  
-  TxtSize       = 5;                 
+  TxtSize       = 7;                 
 // - Font  
   Police        ="Arial Black"; 
 // - Diamètre Coin arrondi - Filet diameter  
@@ -112,7 +112,7 @@ PCBW=PCBWidth;
 module usbcut()
 {
   // cut off opening for micro USB connector
-  translate([33,0,22])
+  translate([32.5,0,21])
      cube([12,10,7],center=true);
   
 }
@@ -130,7 +130,7 @@ module custom_rear_panel()
        for(j=[-1:2:1])
        translate([0,18/2*j,-8])
         rotate([0,90,0])
-         cylinder(d=4,h=Thick*2,$fn=6,center=true);
+         cylinder(d=2.5,h=Thick*2,$fn=6,center=true);
     }
   }
 }
@@ -184,7 +184,7 @@ color( Couleur1,1)
                 }
         }
       // OLED opening on top
-      translate([24,25,20])
+      translate([22,24,20])
         cube([15,25,10]);
       usbcut();
     }
@@ -192,7 +192,7 @@ color( Couleur1,1)
 }
 
 
-//custom_front_panel();
+custom_front_panel();
 //custom_rear_panel();
 //custom_bottom_shell();
-custom_top_shell();
+//custom_top_shell();
