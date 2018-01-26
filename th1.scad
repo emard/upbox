@@ -69,7 +69,7 @@ Thick           = 2;//[2:5]
 // - lissage de l'arrondi - Filet smoothness  
   Resolution    = 20;//[1:100] 
 // - Tolérance - Tolerance (Panel/rails gap)
-  m             = 1.5;
+  m             = 0.5;
 // mounting legs clearance
   MountClearance = 0.1;
   // clearance between Top and Bottom shell
@@ -84,6 +84,8 @@ MountInnerHole = 1.8;
 MountLegSize = 16;
 // fixation hole position from center
 MountHolePos = 2.5;
+// distance of leg to the edge
+MountLegEdge = 0*MountLegSize;
 
 
 
@@ -193,6 +195,6 @@ color( Couleur1,1)
 
 
 custom_front_panel();
-//custom_rear_panel();
-//custom_bottom_shell();
-//custom_top_shell();
+custom_rear_panel();
+custom_bottom_shell();
+custom_top_shell();
