@@ -172,14 +172,15 @@ module Coque(top=0){//Coque - Shell
                 for(i = [0:1])
                 difference(){// Fixation box legs
                     union(){
-                        translate([i*(Length-6*Thick-10)+3*Thick+5,Thick,Height/2]){
+                        translate([i*(Length-6*Thick-2*MountLegEdge)+3*Thick+MountLegEdge,Thick,Height/2]){
                             rotate([90,0,0]){
                                     $fn=6;
                                     cylinder(d=MountLegSize,Thick/2);
                                     }   
                             }
-                            
-                       translate([i*(Length-6*Thick-10)+3*Thick+5,Width-Thick,Height/2]){
+                       
+
+                        translate([i*(Length-6*Thick-2*MountLegEdge)+3*Thick+MountLegEdge,Width-Thick,Height/2]){
                             rotate([-90,0,0]){
                                     $fn=6;
                                     cylinder(d=MountLegSize,Thick/2);
@@ -239,12 +240,12 @@ module Coque(top=0){//Coque - Shell
             for(i = [0:1])
             union(){ //sides inner holes
                 $fn=20;
-                translate([i*(Length - 6*Thick-10) + 3*Thick+5,20,Height/2+MountHolePos]){
+                translate([i*(Length - 6*Thick-2*MountLegEdge) + 3*Thick+MountLegEdge,20,Height/2+MountHolePos]){
                     rotate([90,0,0]){
                     cylinder(d=MountInnerHole,20);
                     }
                 }
-                translate([i*(Length - 6*Thick-10) + 3*Thick+5,Width-20,Height/2+MountHolePos]){
+                translate([i*(Length - 6*Thick-2*MountLegEdge) + 3*Thick+MountLegEdge,Width-20,Height/2+MountHolePos]){
                     rotate([-90,0,0]){
                     cylinder(d=MountInnerHole,20);
                     }
@@ -255,12 +256,12 @@ module Coque(top=0){//Coque - Shell
             union() // sides outer holes
             {
                 $fn=20;
-                translate([i*(Length - 6*Thick-10) + 3*Thick+5,5,Height/2-MountHolePos+ShellClearance]){
+                translate([i*(Length - 6*Thick-2*MountLegEdge) + 3*Thick+MountLegEdge,5,Height/2-MountHolePos+ShellClearance]){
                     rotate([90,0,0]){
                     cylinder(d=MountOuterHole,20);
                     }
                 }
-                translate([i*(Length - 6*Thick-10) + 3*Thick+5,Width+5,Height/2-MountHolePos+ShellClearance]){
+                translate([i*(Length - 6*Thick-2*MountLegEdge) + 3*Thick+MountLegEdge,Width+5,Height/2-MountHolePos+ShellClearance]){
                     rotate([90,0,0]){
                     cylinder(d=MountOuterHole,20);
                     }
