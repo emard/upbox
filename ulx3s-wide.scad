@@ -9,6 +9,7 @@ include <upbox.scad>
   BPanel        = 1;// [0:No, 1:Yes]
 //Panneau avant - Front panel
   FPanel        = 1;// [0:No, 1:Yes]
+
 //Texte façade - Front text
   Text          = 1;// [0:No, 1:Yes]
 
