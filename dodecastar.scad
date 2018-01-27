@@ -163,7 +163,7 @@ rotate([0,0,180]){
 if(Text==1)
 // Front text
 color(Couleur1){     
-     translate([Length-(Thick),Width/2+Thick*0,(Height-(Thick*3+(TxtSize/2)))]){// x,y,z
+     translate([Length-(Thick)-m/2,Width/2+Thick*0,(Height-(Thick*3+(TxtSize/2)))]){// x,y,z
           rotate([90,0,90]){
               linear_extrude(height = 1.0){
               text(txt, font = Police, size = TxtSize,  valign ="center", halign ="center");

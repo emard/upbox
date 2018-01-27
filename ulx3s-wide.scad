@@ -10,7 +10,7 @@ include <upbox.scad>
 //Panneau avant - Front panel
   FPanel        = 1;// [0:No, 1:Yes]
 //Texte façade - Front text
-  Text          = 0;// [0:No, 1:Yes]
+  Text          = 1;// [0:No, 1:Yes]
 
 /*//////////////////////////////////////////////////////////////////
               -    FB Aka Heartman/Hearty 2016     -                   
@@ -164,11 +164,27 @@ if(BPanel==1)
 translate ([-m/2,0,0]){
   difference()
   {
-    Panels();
-    // cut off opening for micro USB connector
-    if(0)
-    translate([Thick*1.5+m,Width/2,21])
-       cube([Thick*2,11,6],center=true);
+    union()
+    {
+      Panels();
+      // screw extenders
+       for(i=[-1:2:1])
+         translate([Thick*1.5*0+m,25.4/2*i+Width/2,Height/2])
+           rotate([0,90,0])
+             cylinder(d=4,h=Thick*2,$fn=32,center=true);
+    }
+       if(1)
+       {
+       // cut off opening for DB-9 connector
+       translate([Thick*1.5+m,Width/2,Height/2])
+         cube([Thick*2,19,10],center=true);
+       // cut off screw holes
+       for(i=[-1:2:1])
+         translate([Thick*1.5+m-1.9,25.4/2*i+Width/2,Height/2])
+           rotate([0,90,0])
+             cylinder(d=1.8,h=6,$fn=12,center=true);
+       }
+
   }
 }
 
@@ -182,39 +198,29 @@ rotate([0,0,180]){
        union()
        {
          Panels();
-         // screw extenders
-       for(i=[-1:2:1])
-         translate([Thick*1.5*0+m,25.4/2*i+Width/2,Height/2])
-           rotate([0,90,0])
-             cylinder(d=4,h=Thick*2,$fn=32,center=true);
      
        }
-       if(1)
-       {
-       // cut off opening for DB-9 connector
-       translate([Thick*1.5+m,Width/2,Height/2])
-         cube([Thick*2,19,10],center=true);
-       // cut off screw holes
-       for(i=[-1:2:1])
-         translate([Thick*1.5+m-1.9,25.4/2*i+Width/2,Height/2])
-           rotate([0,90,0])
-             cylinder(d=1.8,h=6,$fn=12,center=true);
-       }
+
        }
      }
    }
 
-if(Text==1)
-// Front text
-color(Couleur1){     
-     translate([Length-(Thick),Width/2+Thick*0,(Height-(Thick*3+(TxtSize/2)))]){// x,y,z
+   if(Text==1)
+   // Front text
+   color(Couleur1)
+   {
+     translate([
+       Length-(Thick)-m/2,
+       Width/2,
+       Height/2])
+     {// x,y,z
           rotate([90,0,90]){
               linear_extrude(height = 1.0){
               text(txt, font = Police, size = TxtSize,  valign ="center", halign ="center");
                         }
                  }
-         }
-}
+     }
+   }
 }
 
 if(BShell==1)
