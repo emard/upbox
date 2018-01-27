@@ -96,6 +96,8 @@ MountInnerHole = 1.8;
 MountLegSize = 16;
 // fixation hole position from center
 MountHolePos = 2.5;
+// distance of leg to the edge
+MountLegEdge = 0*MountLegSize;
 
 /* [STL element to export] */
 //Coque haut - Top shell
