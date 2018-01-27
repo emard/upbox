@@ -4,13 +4,13 @@ include <upbox.scad>
 //Coque haut - Top shell
   TShell        = 1;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
-  BShell        = 0;// [0:No, 1:Yes]
+  BShell        = 1;// [0:No, 1:Yes]
 //Panneau arrière - Rear panel  
-  BPanel        = 0;// [0:No, 1:Yes]
+  BPanel        = 1;// [0:No, 1:Yes]
 //Panneau avant - Front panel
-  FPanel        = 0;// [0:No, 1:Yes]
+  FPanel        = 1;// [0:No, 1:Yes]
 // button pins
-  Pins          = 0; // button pins
+  Pins          = 1; // button pins
 
 //Texte façade - Front text
   Text          = 1;// [0:No, 1:Yes]
@@ -147,17 +147,17 @@ module connector_cut()
       translate([24,-10,6])
         cube([21,3,3],center=true);
       // cut off for HDMI
-      translate([52,60-5,13])
+      translate([52,60-5,12])
         cube([22,10,13],center=true);
       // cut off for AUDIO
       translate([31.5,60-5,11])
         rotate([90,0,0])
           cylinder(d=13,h=10,$fn=32,center=true);
       // cut off for USB1
-      translate([19.0,60-5,11])
+      translate([19.0,60-5,10])
         cube([13,10,9],center=true);
       // cut off for USB2
-      translate([77.30,60-5,11])
+      translate([77.30,60-5,10])
         cube([13,10,9],center=true);
   }    
 }
@@ -166,12 +166,12 @@ module connector_cut()
 // relative to feet
 button_pos =
 [
-  [PCBLength-7.5,PCBWidth-9.5,0], // btn0
-  [1,19.5,0], // btn1
-  [12.5,19.5,0], // btn2
-  [PCBLength-18.5,9.5,0], // btn3
-  [PCBLength-18.5,0,0], // btn4
-  [PCBLength-30,0,0], // btn5
+  [PCBLength-7.5,PCBWidth-8.5,0], // btn0
+  [1.5,18.5,0], // btn1
+  [13.0,18.5,0], // btn2
+  [PCBLength-19,8.5,0], // btn3
+  [PCBLength-19,0,0], // btn4
+  [PCBLength-30.5,0,0], // btn5
   [PCBLength-7.5,0,0] // btn6  
 ];
 
@@ -197,7 +197,7 @@ module button_pins()
 {
   pin_d1=6; // top dia
   pin_h=Height/2+2; // total height
-  pin_d2=9; // button touch dia
+  pin_d2=8; // button touch dia
   pin_h2=2; // button touch h
 
   footx = 2*Thick+FootClrX;
