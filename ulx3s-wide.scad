@@ -4,11 +4,13 @@ include <upbox.scad>
 //Coque haut - Top shell
   TShell        = 1;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
-  BShell        = 1;// [0:No, 1:Yes]
+  BShell        = 0;// [0:No, 1:Yes]
 //Panneau arrière - Rear panel  
-  BPanel        = 1;// [0:No, 1:Yes]
+  BPanel        = 0;// [0:No, 1:Yes]
 //Panneau avant - Front panel
-  FPanel        = 1;// [0:No, 1:Yes]
+  FPanel        = 0;// [0:No, 1:Yes]
+// button pins
+  Pins          = 0; // button pins
 
 //Texte façade - Front text
   Text          = 1;// [0:No, 1:Yes]
@@ -160,6 +162,90 @@ module connector_cut()
   }    
 }
 
+// xyz positions of all buttons
+// relative to feet
+button_pos =
+[
+  [PCBLength-7.5,PCBWidth-9.5,0], // btn0
+  [1,19.5,0], // btn1
+  [12.5,19.5,0], // btn2
+  [PCBLength-18.5,9.5,0], // btn3
+  [PCBLength-18.5,0,0], // btn4
+  [PCBLength-30,0,0], // btn5
+  [PCBLength-7.5,0,0] // btn6  
+];
+
+// addition to top shell - button tubes
+module top_add()
+{
+  // mounting hole xy-position
+  footx = 2*Thick+FootClrX;
+  footy = Thick+FootClrY;
+  tube_h=Height/2-3;
+  tube_od=9; // tube outer diameter
+  translate([footx,footy,Height-tube_h/2])
+  {
+      // btn hole
+    for(i = [0:6])
+      translate(button_pos[i])
+        cylinder(d=tube_od,h=tube_h,$fn=12,center=true);
+  }
+}
+
+
+module button_pins()
+{
+  pin_d1=6; // top dia
+  pin_h=Height/2+2; // total height
+  pin_d2=9; // button touch dia
+  pin_h2=2; // button touch h
+
+  footx = 2*Thick+FootClrX;
+  footy = Thick+FootClrY;
+
+  translate([footx,footy,Height/2+0.5])
+  for(i = [0:6])
+    translate(button_pos[i])
+      union()
+      {
+        cylinder(d=pin_d1,h=pin_h,$fn=32);
+        cylinder(d=pin_d2,h=pin_h2,$fn=32);
+      }
+}
+
+
+module top_cut()
+{
+  // mounting hole xy-position
+  footx = 2*Thick+FootClrX;
+  footy = Thick+FootClrY;
+  tube_h=Height/2-3;
+  tube_id=7; // button tube inner diameter
+  translate([footx,footy,Height])
+  {
+      // 8-led view slit 
+      translate([6,PCBWidth-11,0])
+        cube([20,4,10],center=true);
+      // 3-led view slit 
+      translate([25,3,0])
+        cube([10,4,10],center=true);
+      // display (screen)
+      if(1)
+      translate([PCBLength/2-1,PCBWidth/2+0.5,0])
+        cube([23,16,10],center=true);
+      // display socket
+      if(0)
+      translate([PCBLength/2,8.5,0])
+        cube([20,4,10],center=true);
+      // btn hole
+      translate([0,0,-tube_h/2])
+      for(i = [0:6])
+        translate(button_pos[i])
+          cylinder(d=tube_id,h=tube_h+1,$fn=12,center=true);
+  }
+}
+
+
 if(BPanel==1)
 //Back Panel
 translate ([-m/2,0,0]){
@@ -191,22 +277,12 @@ translate ([-m/2,0,0]){
 
 if(FPanel==1)
 {
-//Front Panel
-rotate([0,0,180]){
-    translate([-Length-m/2,-Width,0]){
-     difference()
-     {
-       union()
-       {
-         Panels();
-     
-       }
+  //Front Panel
+  rotate([0,0,180])
+    translate([-Length-m/2,-Width,0])
+       Panels();
 
-       }
-     }
-   }
-
-   if(Text==1)
+  if(Text==1)
    // Front text
    color(Couleur1)
    {
@@ -259,66 +335,23 @@ difference()
   }
 }
 
-module top_cut()
-{
-  // mounting hole xy-position
-  footx = 2*Thick+FootClrX;
-  footy = Thick+FootClrY;
-    
-  translate([footx,footy,Height])
-  {
-      // 8-led view slit 
-      translate([6,PCBWidth-11,0])
-        cube([20,4,10],center=true);
-      // 3-led view slit 
-      translate([25,3,0])
-        cube([10,4,10],center=true);
-      // display (screen)
-      if(1)
-      translate([PCBLength/2-1,PCBWidth/2+0.5,0])
-        cube([23,16,10],center=true);
-      // display socket
-      if(0)
-      translate([PCBLength/2,8.5,0])
-        cube([20,4,10],center=true);
-      // btn1 hole
-      translate([1,19.5,0])
-        cylinder(d=5,h=10,$fn=12,center=true);
-      // btn2 hole
-      translate([12.5,19.5,0])
-        cylinder(d=5,h=10,$fn=12,center=true);
-      // btn3 hole
-      translate([PCBLength-18.5,9.5,0])
-        cylinder(d=5,h=10,$fn=12,center=true);
-      // btn6 hole
-      translate([PCBLength-7.5,0,0])
-        cylinder(d=5,h=10,$fn=12,center=true);
-      // btn4 hole
-      translate([PCBLength-18.5,0,0])
-        cylinder(d=5,h=10,$fn=12,center=true);
-      // btn5 hole
-      translate([PCBLength-30,0,0])
-        cylinder(d=5,h=10,$fn=12,center=true);
-      // btn0 hole
-      translate([PCBLength-7.5,PCBWidth-9.5,0])
-        cylinder(d=5,h=10,$fn=12,center=true);
-
-
-  }
-}
 
 if(TShell==1)
 // Coque haut - Top Shell
 color( Couleur1,1){
   difference()
   {
-    translate([Length,0,Height+ShellClearance]){
-        rotate([0,180,0]){
-      Coque(top=1);
-                }
-        }
+    union()
+    {
+      translate([Length,0,Height+ShellClearance])
+        rotate([0,180,0])
+          Coque(top=1);
+      top_add();
+    }
     connector_cut();
     top_cut();
   }
 }
 
+if(Pins==1)
+    button_pins();
