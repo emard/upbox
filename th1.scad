@@ -81,7 +81,7 @@ MountOuterHole = 2.5;
 MountInnerHole = 1.8;
 
 // fixation leg size
-MountLegSize = 16;
+MountLegSize = 10;
 // fixation hole position from center
 MountHolePos = 2.5;
 // distance of leg to the edge
