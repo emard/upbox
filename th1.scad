@@ -126,7 +126,7 @@ module custom_rear_panel()
   {
     Panels();
     // cut off opening for 2 RJ-45
-    translate([Thick*1.5+m,Width/2+1.5,16])
+    translate([Thick*1.5+m,Width/2+1.5,15.5])
     {
        cube([Thick*2,36,16],center=true);
        for(j=[-1:2:1])
