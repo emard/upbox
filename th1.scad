@@ -134,6 +134,13 @@ module custom_rear_panel()
         rotate([0,90,0])
          cylinder(d=2.5,h=Thick*2,$fn=6,center=true);
     }
+    // cut off hole for RP-SMA
+    translate([Thick*1.5+m,Width*0,15.5])
+    {
+        translate([0,9,0])
+        rotate([0,90,0])
+        cylinder(d=6.5,h=Thick*2,$fn=12,center=true);
+    }
   }
 }
 }
@@ -186,7 +193,8 @@ color( Couleur1,1)
                 }
         }
       // OLED opening on top
-      translate([22,24,20])
+      // translate([22,24,20]) // old OLED
+      translate([24,24,20]) // new OLED
         cube([15,25,10]);
       usbcut();
     }
