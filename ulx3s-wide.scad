@@ -52,6 +52,8 @@ PCBPosY         = 0;
 PCBLength       = 30*2.54;
 // - Largeur PCB - PCB Width
 PCBWidth        = 17*2.54;
+// Thickness of PCB
+PCBThick        = 1.6;
 // - Heuteur pied - Feet height
 FootHeight      = 7;
 // - Diamètre pied - Foot diameter
@@ -136,12 +138,24 @@ PCBW=PCBWidth;
 
 ///////////////////////////////////// - Main - ///////////////////////////////////////
 
+  // mounting hole xy-position
+  Footx = 2*Thick+FootClrX;
+  Footy = Thick+FootClrY;
+  Fh = 18; // top feet height
+  // foot xy positions
+  Fxy = [
+  [Footx, Footy, 0],
+  [Footx+PCBLength, Footy, 0],
+  [Footx, Footy+PCBWidth, 0],
+  [Footx+PCBLength, Footy+PCBWidth, 0]
+  ];
+
 module connector_cut()
 {
   // mounting hole x-position
-  footx = 2*Thick+FootClrX;
-  footy = Thick+FootClrY;
-  translate([footx-10,footy,0])
+  //footx = 2*Thick+FootClrX;
+  //footy = Thick+FootClrY;
+  translate([Footx-10,Footy,0])
   {
       // cut off for WiFi
       translate([24,-10,6])
@@ -179,16 +193,27 @@ button_pos =
 module top_add()
 {
   // mounting hole xy-position
-  footx = 2*Thick+FootClrX;
-  footy = Thick+FootClrY;
+  //footx = 2*Thick+FootClrX;
+  //footy = Thick+FootClrY;
   tube_h=Height/2-3;
   tube_od=9; // tube outer diameter
-  translate([footx,footy,Height-tube_h/2])
+  translate([Footx,Footy,Height-tube_h/2])
   {
       // btn hole
     for(i = [0:6])
       translate(button_pos[i])
         cylinder(d=tube_od,h=tube_h,$fn=12,center=true);
+  }
+  for(i = [0:3])
+  {
+    translate([0,0,Height-Fh/2])
+    translate(Fxy[i])
+    {
+      cylinder(d=6,h=Fh,$fn=12,center=true);
+      // small in-hole centering cylinders
+      translate([0,0,-Fh/2-(PCBThick-0.1-0.001)])
+        cylinder(d=3,h=PCBThick-0.1,$fn=32);
+    }
   }
 }
 
@@ -200,10 +225,10 @@ module button_pins()
   pin_d2=8; // button touch dia
   pin_h2=2; // button touch h
 
-  footx = 2*Thick+FootClrX;
-  footy = Thick+FootClrY;
+  //footx = 2*Thick+FootClrX;
+  //footy = Thick+FootClrY;
 
-  translate([footx,footy,Height/2+0.5])
+  translate([Footx,Footy,Height/2+0.5])
   for(i = [0:6])
     translate(button_pos[i])
       union()
@@ -217,11 +242,11 @@ module button_pins()
 module top_cut()
 {
   // mounting hole xy-position
-  footx = 2*Thick+FootClrX;
-  footy = Thick+FootClrY;
+  //footx = 2*Thick+FootClrX;
+  //footy = Thick+FootClrY;
   tube_h=Height/2-3;
   tube_id=7; // button tube inner diameter
-  translate([footx,footy,Height])
+  translate([Footx,Footy,Height])
   {
       // 8-led view slit 
       translate([6,PCBWidth-11,0])
@@ -243,6 +268,38 @@ module top_cut()
         translate(button_pos[i])
           cylinder(d=tube_id,h=tube_h+1,$fn=12,center=true);
   }
+  // screw holes on top legs
+  screwhole_h=10; // depth of the screw hole
+  for(i=[0:3])
+    translate([0,0,Height-Fh/2])
+    translate(Fxy[i])
+      translate([0,0,-screwhole_h/2-PCBThick])
+      cylinder(d=1.8,h=screwhole_h,$fn=6,center=true);
+}
+
+// add bottom custom feet
+module bottom_add()
+{
+  bfh=Height-Fh-PCBThick; // bottom feet height
+  for(i=[0:3])
+    translate(Fxy[i])
+      cylinder(d=6.5,h=bfh,$fn=12,center=false);
+
+}
+
+// cut holes in bottom feet
+module bottom_cut()
+{
+  bfhole=Height-Fh-PCBThick-Thick;
+  for(i=[0:3])
+    translate([0,0,-0.01])
+    translate(Fxy[i])
+    union()
+    {
+      cylinder(d=1.8,h=Height,$fn=12,center=false);
+      cylinder(d=5,h=bfhole,$fn=12,center=false);
+    }
+
 }
 
 
@@ -305,9 +362,15 @@ if(BShell==1)
 color(Couleur1){
 difference()
 {
+   union()
+   {
       Coque(top=0);
-      connector_cut();
+      bottom_add();
+   }
+   connector_cut();
+   bottom_cut();
 }
+  if(0)
   if (PCBFeet==1)  // Feet
   {
     footx = 2*Thick+FootClrX;
@@ -319,8 +382,8 @@ difference()
     {
       translate([PCBPosX,PCBPosY,0])
         Feet();
-
       // add centering cylinder for 3.2 mm hole
+      if(0)
       for(i=[0:1])
         for(j=[0:1])
           translate([footx+i*PCBLength,footy+j*PCBWidth,FootHeight-Thick+1.5])
@@ -330,7 +393,7 @@ difference()
       for(i=[0:1])
         for(j=[0:1])
           translate([footx+i*PCBLength,footy+j*PCBWidth,FootHeight-Thick+1.5-4])
-            cylinder(d=1.8,h=6,$fn=32);
+            cylinder(d=2.5,h=Height,$fn=32);
     }
   }
 }
