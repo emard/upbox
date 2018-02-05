@@ -141,7 +141,7 @@ PCBW=PCBWidth;
   // mounting hole xy-position
   Footx = 2*Thick+FootClrX;
   Footy = Thick+FootClrY;
-  Fh = 18; // top feet height
+  Fh = 17.5; // top feet height
   // foot xy positions
   Fxy = [
   [Footx, Footy, 0],
@@ -168,10 +168,10 @@ module connector_cut()
         rotate([90,0,0])
           cylinder(d=13,h=10,$fn=32,center=true);
       // cut off for USB1
-      translate([19.0,60-5,9])
+      translate([19.0,60-5,9.5])
         cube([13,10,9],center=true);
       // cut off for USB2
-      translate([77.30,60-5,9])
+      translate([77.30,60-5,9.5])
         cube([13,10,9],center=true);
   }    
 }
@@ -290,13 +290,18 @@ module bottom_add()
 // cut holes in bottom feet
 module bottom_cut()
 {
-  bfhole=Height-Fh-PCBThick-Thick;
+  transition=2;
+  bfhole=Height-Fh-PCBThick-(Thick+transition/2);
   for(i=[0:3])
     translate([0,0,-0.01])
     translate(Fxy[i])
     union()
     {
       cylinder(d=1.8,h=Height,$fn=12,center=false);
+      // conical transition
+      translate([0,0,bfhole-0.01])
+        cylinder(d1=5,d2=1.8,h=transition+0.02,$fn=12,center=false);
+      // screw head hole
       cylinder(d=5,h=bfhole,$fn=12,center=false);
     }
 
