@@ -102,7 +102,7 @@ Thick           = 2;//[2:5]
 // mounting legs clearance
   MountClearance = 0.1;
   // clearance between Top and Bottom shell
-  ShellClearance = 0.1;
+  ShellClearance = 0.0;
 
 
 // mounting hole diameters
@@ -168,10 +168,10 @@ module connector_cut()
         rotate([90,0,0])
           cylinder(d=13,h=10,$fn=32,center=true);
       // cut off for USB1
-      translate([19.0,60-5,10])
+      translate([19.0,60-5,9])
         cube([13,10,9],center=true);
       // cut off for USB2
-      translate([77.30,60-5,10])
+      translate([77.30,60-5,9])
         cube([13,10,9],center=true);
   }    
 }
