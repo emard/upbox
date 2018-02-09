@@ -16,7 +16,7 @@ include <upbox.scad>
   Text          = 1;// [0:No, 1:Yes]
 
 /*//////////////////////////////////////////////////////////////////
-              -    FB Aka Heartman/Hearty 2016     -                   
+              -  mjesečno po svojem parkir  FB Aka Heartman/Hearty 2016     -                   
               -   http://heartygfx.blogspot.com    -                  
               -       OpenScad Parametric Box      -                     
               -         CC BY-NC 3.0 License       -                      
@@ -66,7 +66,8 @@ Foot3Width = 0*2.54;
 // those clearances should be larger than
 // the PCB edge to hole centers distances
 FootClrX = 10; // foot center to panel clearance 25 for DB-9, 10 for tight
-FootClrY = 10; // foot center to shell wall clearance
+FootClrY = 10-3; // foot center to shell wall clearance
+FootmvY = 3; // move foot out of center y direction
 
 // - Epaisseur - Wall thickness  
 Thick           = 2;//[2:5]  
@@ -99,6 +100,7 @@ Thick           = 2;//[2:5]
   Resolution    = 20;//[1:100] 
 // - Tolérance - Tolerance (Panel/rails gap)
   m             = 0.5;
+  mz            = 0.8; // panels height tolerance
 // mounting legs clearance
   MountClearance = 0.1;
   // clearance between Top and Bottom shell
@@ -140,7 +142,7 @@ PCBW=PCBWidth;
 
   // mounting hole xy-position
   Footx = 2*Thick+FootClrX;
-  Footy = Thick+FootClrY;
+  Footy = Thick+FootClrY+FootmvY;
   Fh = 17.5; // top feet height
   // foot xy positions
   Fxy = [
@@ -155,23 +157,24 @@ module connector_cut()
   // mounting hole x-position
   //footx = 2*Thick+FootClrX;
   //footy = Thick+FootClrY;
+  cy = 60-8;
   translate([Footx-10,Footy,0])
   {
       // cut off for WiFi
       translate([24,-10,6])
         cube([21,3,3],center=true);
       // cut off for HDMI
-      translate([52,60-5,12])
+      translate([52,cy,12])
         cube([22,10,13],center=true);
       // cut off for AUDIO
-      translate([31.5,60-5,11])
+      translate([31.5,cy,11])
         rotate([90,0,0])
           cylinder(d=13,h=10,$fn=32,center=true);
       // cut off for USB1
-      translate([19.0,60-5,9.5])
+      translate([19.0,cy,9.5])
         cube([13,10,9],center=true);
       // cut off for USB2
-      translate([77.30,60-5,9.5])
+      translate([77.30,cy,9.5])
         cube([13,10,9],center=true);
   }    
 }
@@ -277,10 +280,11 @@ module top_cut()
       cylinder(d=1.8,h=screwhole_h,$fn=6,center=true);
 }
 
+BFclr = 0.5; // bottom feet clearance
 // add bottom custom feet
 module bottom_add()
 {
-  bfh=Height-Fh-PCBThick; // bottom feet height
+  bfh=Height-Fh-PCBThick-BFclr; // bottom feet height
   for(i=[0:3])
     translate(Fxy[i])
       cylinder(d=6.5,h=bfh,$fn=12,center=false);
@@ -291,7 +295,7 @@ module bottom_add()
 module bottom_cut()
 {
   transition=2;
-  bfhole=Height-Fh-PCBThick-(Thick+transition/2);
+  bfhole=Height-Fh-PCBThick-BFclr-(Thick+transition/2);
   for(i=[0:3])
     translate([0,0,-0.01])
     translate(Fxy[i])
@@ -304,6 +308,9 @@ module bottom_cut()
       // screw head hole
       cylinder(d=5,h=bfhole,$fn=12,center=false);
     }
+    // cut rails for PCB
+    translate((Fxy[0]+Fxy[3])/2+[0,0,8.01])
+      cube([99,51.15,3],center=true);
 
 }
 
