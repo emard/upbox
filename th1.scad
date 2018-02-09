@@ -70,6 +70,7 @@ Thick           = 2;//[2:5]
   Resolution    = 20;//[1:100] 
 // - Tolérance - Tolerance (Panel/rails gap)
   m             = 0.5;
+  mz = m;
 // mounting legs clearance
   MountClearance = 0.1;
   // clearance between Top and Bottom shell

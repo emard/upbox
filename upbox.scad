@@ -278,10 +278,10 @@ module Coque(top=0){//Coque - Shell
                             
 module Panels(){//Panels
     color(Couleur2){
-        translate([Thick+m,m/2,m/2]){
+        translate([Thick+m,m/2,mz/2]){
              difference(){
                   translate([0,Thick,Thick]){ 
-                     RoundBox(Length,Width-((Thick*2)+m),Height-((Thick*2)+m));}
+                     RoundBox(Length,Width-((Thick*2)+m),Height-((Thick*2)+mz));}
                   translate([Thick,-5,0]){
                      cube([Length,Width+10,Height]);}
                      }
