@@ -100,7 +100,7 @@ Thick           = 2;//[2:5]
   Resolution    = 20;//[1:100] 
 // - Tolérance - Tolerance (Panel/rails gap)
   m             = 0.5;
-  mz            = 0.8; // panels height tolerance
+  mz            = 1.0; // panels height tolerance
 // mounting legs clearance
   MountClearance = 0.1;
   // clearance between Top and Bottom shell
@@ -112,7 +112,7 @@ MountOuterHole = 2.5;
 MountInnerHole = 1.8;
 
 // fixation leg size
-MountLegSize = 10;
+MountLegSize = 0; // 10
 // fixation hole z-position from center
 MountHolePos = 2.5;
 // distance of leg to the edge
@@ -309,8 +309,9 @@ module bottom_cut()
       cylinder(d=5,h=bfhole,$fn=12,center=false);
     }
     // cut rails for PCB
-    translate((Fxy[0]+Fxy[3])/2+[0,0,8.01])
-      cube([99,51.15,3],center=true);
+    if(1)
+    translate((Fxy[0]+Fxy[3])/2+[0,0,Height-5])
+      cube([99,51.15,Height],center=true);
 
 }
 
