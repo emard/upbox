@@ -310,7 +310,7 @@ module bottom_cut()
     }
     // cut rails for PCB
     if(1)
-    translate((Fxy[0]+Fxy[3])/2+[0,0,Height-5])
+    translate((Fxy[0]+Fxy[3])/2+[0,0,Height/2+(Height-Fh-PCBThick-BFclr)])
       cube([99,51.15,Height],center=true);
 
 }
