@@ -19,6 +19,7 @@ module rod()
 
 module coil()
 {
+  translate([0,0,-40])
   cylinder(d=cd, h=cl, center=true);
 }
 
