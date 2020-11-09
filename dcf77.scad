@@ -4,11 +4,11 @@ include <dcf77antenna.scad>
 
 /* [STL element to export] */
 //Coque haut - Top shell
-  TShell        = 0;// [0:No, 1:Yes]
+  TShell        = 1;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
   BShell        = 1;// [0:No, 1:Yes]
 //Panneau arrière - Rear panel  
-  BPanel        = 0;// [0:No, 1:Yes]
+  BPanel        = 1;// [0:No, 1:Yes]
 //Panneau avant - Front panel
   FPanel        = 1;// [0:No, 1:Yes]
 // Font color: at height 2.7: M600; change filament
@@ -367,11 +367,10 @@ module top_cut()
         cube([25,15,10],center=true);
   }
   // screw holes on top legs
-  screwhole_h=10; // depth of the screw hole
+  screwhole_h=4; // depth of the screw hole
   for(i=[0:3])
-    translate([0,0,Height-Fh/2])
+    translate([0,0,Height-Fh])
     translate(Fxy[i])
-      translate([0,0,-screwhole_h/2-PCBThick])
       cylinder(d=1.8,h=screwhole_h,$fn=6,center=true);
   if(1)
   translate([Length-Height/2-AntennamvX,Width/2,Height/2])
