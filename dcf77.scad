@@ -4,7 +4,7 @@ include <dcf77antenna.scad>
 
 /* [STL element to export] */
 //Coque haut - Top shell
-  TShell        = 1;// [0:No, 1:Yes]
+  TShell        = 0;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
   BShell        = 1;// [0:No, 1:Yes]
 //Panneau arrière - Rear panel  
@@ -240,6 +240,10 @@ module antenna_add()
 {
   difference()
   {
+      union()
+      {
+  difference()
+  {
     rotate([0,0,90])
     union()
     {
@@ -249,14 +253,8 @@ module antenna_add()
           sphere(d=Height,$fn=Antennafn);
     }
     // inside, leaving holder on one side
-    difference()
-    {
     rotate([0,0,90])
-    cylinder(d=Height-2*Thick,h=fl+1,$fn=Antennafn,center=true);
-      if(1) // additional holder on one side
-        translate([0,0,40])
-        cube([50,50,Thick/2],center=true);
-    }
+      cylinder(d=Height-2*Thick,h=fl+1,$fn=Antennafn,center=true);
     // hemisphere at ends
     for(i=[-1:2:1])
       translate([0,0,i*fl/2])
@@ -266,20 +264,29 @@ module antenna_add()
           sphere(d=Height-2*Thick,$fn=Antennafn);
           cylinder(d=Height,h=Thick,$fn=Antennafn,center=true);
         }
+    }
+    if(1) // additional holder on one side
+      translate([0,0,70])
+       //cube([50,50,Thick/2],center=true);
+       rotate([0,0,90])
+       cylinder(d=Height,h=Thick/2,$fn=Antennafn,center=true);
+    }
     // cut box
     cube([Height+1,Height+1,Width-2*Thick],center=true);
     // cut half
     translate([0,(fl+1)/2,0])
       cube([fl+1,fl+1,fl+Height],center=true);
   }
+
 }
 
 module antenna_cut()
 {
+  scale([1.06,1.06,1])
   rod();
   // cut for wire leads
   translate([0,0,Width/2])
-   cylinder(d=15,h=10,center=true);
+   cylinder(d=22,h=10,center=true);
   cube([2,15,Width+1],center=true);
 }
 
@@ -369,8 +376,7 @@ module top_cut()
   if(1)
   translate([Length-Height/2-AntennamvX,Width/2,Height/2])
     rotate([90,0,0])
-      scale([1.07,1.07,1])
-        antenna_cut();
+      antenna_cut();
 }
 
 // add bottom custom feet
@@ -429,8 +435,7 @@ module bottom_cut()
   if(1)
   translate([Length-Height/2-AntennamvX,Width/2,Height/2])
     rotate([90,0,0])
-      scale([1.1,1.1,1])
-        antenna_cut();
+      antenna_cut();
 }
 
 
