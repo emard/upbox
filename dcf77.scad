@@ -453,12 +453,13 @@ translate ([-m/2,0,0]){
            rotate([0,90,0])
              cylinder(d=4,h=Thick*2,$fn=32,center=true);
     }
-       if(0)
+       if(1)
        {
        // cut off opening for DB-9 connector
-       translate([Thick*1.5+m,Width/2,Height/2])
-         cube([Thick*2,19,10],center=true);
+       translate([Thick*1.5+m,Width/2-4,Height/2+6.5])
+         cube([Thick*2,12,8],center=true);
        // cut off screw holes
+       if(0)
        for(i=[-1:2:1])
          translate([Thick*1.5+m-1.9,25.4/2*i+Width/2,Height/2])
            rotate([0,90,0])
